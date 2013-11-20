@@ -13,12 +13,22 @@ type resultInfo struct {
 	Score   float64
 }
 
+type kFactorSpec struct {
+	Start float64
+
+	Amateur        float64
+	AmateurNrGames int
+
+	Master    float64
+	MasterElo int
+}
+
 type tournamentConfig struct {
 	Participants map[string]string
 	Results      []resultInfo
 
 	InitialRating int
-	K_factor      float64
+	K_factor      kFactorSpec
 	MinNrOfGames  int
 }
 
@@ -44,7 +54,21 @@ func initializeConfiguration() {
 	if config.InitialRating == 0 {
 		config.InitialRating = 1000
 	}
-	if config.K_factor == 0.0 {
-		config.K_factor = 30.0
+
+	if config.K_factor.Start == 0.0 {
+		config.K_factor.Start = 30.0
 	}
+	if config.K_factor.Amateur == 0.0 {
+		config.K_factor.Amateur = 20.0
+	}
+	if config.K_factor.AmateurNrGames == 0 {
+		config.K_factor.AmateurNrGames = 10
+	}
+	if config.K_factor.Master == 0.0 {
+		config.K_factor.Master = 10.0
+	}
+	if config.K_factor.MasterElo == 0 {
+		config.K_factor.MasterElo = 2000
+	}
+
 }
